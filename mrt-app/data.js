@@ -197,12 +197,26 @@ const CALIBRATIONS = [
   { type: "ride", line: "CC", stations: ["Bishan", "Lorong Chuan", "Serangoon"], totalMinutes: 7 },
   { type: "ride", line: "CC", stations: ["Serangoon", "Bartley", "Tai Seng", "MacPherson"], totalMinutes: 10 },
   { type: "ride", line: "CC", stations: ["MacPherson", "Paya Lebar"], totalMinutes: 4 },
+  // Likewise, MacPherson's CC<->DT transfer has to be long enough that
+  // detouring through it doesn't undercut the DT-line stations further
+  // out towards Tampines (which should cost more than Simei, on the EW
+  // corridor, not less).
+  { type: "transfer", station: "MacPherson", lineA: "CC", lineB: "DT", minutes: 6 },
 
   // Choa Chu Kang -> Bukit Panjang (flat) -> Downtown Line to Tan Kah Kee
   // and on to Bugis.
   { type: "ride", line: "DT", stations: ["Bukit Panjang", "Cashew", "Hillview", "Hume", "Beauty World", "King Albert Park", "Sixth Avenue", "Tan Kah Kee"], totalMinutes: 15 },
   { type: "ride", line: "DT", stations: ["Tan Kah Kee", "Botanic Gardens", "Stevens", "Newton"], totalMinutes: 10 },
   { type: "ride", line: "DT", stations: ["Newton", "Little India", "Rochor", "Bugis"], totalMinutes: 5 },
+  // Bugis's DT<->EW transfer is a genuinely longer underground walk than
+  // most interchanges - and it has to be at least this long, or the
+  // Bukit Panjang detour would be a shortcut onto the EW corridor that's
+  // cheaper than actually riding it, undercutting every station beyond
+  // Bugis (Paya Lebar, Bedok, Tanah Merah, Tampines, Pasir Ris...).
+  { type: "transfer", station: "Bugis", lineA: "DT", lineB: "EW", minutes: 6 },
+  // Same reasoning: Outram Park -> NE -> Chinatown -> DT -> Tampines was
+  // another back-door route that undercut the DT line beyond Chinatown.
+  { type: "transfer", station: "Chinatown", lineA: "NE", lineB: "DT", minutes: 6 },
 ];
 
 if (typeof module !== "undefined") {
