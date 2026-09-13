@@ -8,16 +8,29 @@ where to transfer).
 
 - **Choa Chu Kang to/from the stations on your personal list** always uses
   your given real-world duration (works both directions), listed in
-  `data.js` under `CCK_OVERRIDES`.
-- **Every other pair** is computed with Dijkstra's algorithm over the real
-  MRT line map, assuming 3 minutes between adjacent stations and 3 minutes
-  to change lines at an interchange, always picking the shortest total time.
+  `data.js` under `CCK_OVERRIDES`. This is a direct promise: querying one of
+  these pairs never returns anything but your number.
+- **Those same numbers also calibrate the map itself.** `CALIBRATIONS` in
+  `data.js` walks the real corridor each listed trip takes (e.g. Choa Chu
+  Kang → Yishun → Ang Mo Kio → Bishan up the NS Line) and tunes each
+  individual stop-to-stop hop (2–5 min) and each transfer so they sum to
+  your given total. That means Choa Chu Kang → Bishan costs the same 40 min
+  whether Bishan is your destination or just a stop on the way to, say,
+  Toa Payoh — the calibration applies everywhere that corridor is used, not
+  only to the exact pair you gave a number for.
+- **Every other pair** (no personal data at all) falls back to a default:
+  3 minutes between adjacent stations (2 minutes on the Downtown Line,
+  which tends to run shorter hops) and 3 minutes to change lines at an
+  interchange. Dijkstra's algorithm always picks the shortest total time
+  over this whole calibrated + default map.
 
 ## Files
 
-- `data.js` — line/station data and your personalised Choa Chu Kang list.
-- `router.js` — the routing engine (pure JS, no DOM, reusable/testable).
-- `app.js` — wires the router up to the UI.
+- `data.js` — line/station data, your personalised Choa Chu Kang list, and
+  the corridor calibrations derived from it.
+- `router.js` — the routing engine and calibration logic (pure JS, no DOM,
+  reusable/testable).
+- `app.js` — wires the router up to the UI (including the station search).
 - `index.html` / `style.css` — the page itself.
 - `manifest.json` — lets iOS treat it as a standalone app icon.
 
@@ -44,3 +57,8 @@ calls, no accounts, nothing to configure.
 
 Edit `CCK_OVERRIDES` in `data.js` — each entry is
 `{ to: "Station Name", minutes: N, hint: "optional path description" }`.
+This alone keeps direct Choa Chu Kang queries exact. If you also want the
+new number to calibrate the corridor it travels (so it's used correctly as
+a leg of other journeys too), add a matching step to `CALIBRATIONS`
+describing the real stations/line it passes through and the target total
+for that stretch — see the existing entries for the pattern.
