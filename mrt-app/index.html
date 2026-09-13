@@ -19,13 +19,19 @@
     </header>
 
     <section class="form">
-      <label for="from">From</label>
-      <select id="from"></select>
+      <div class="field">
+        <label for="from">From</label>
+        <input id="from" type="text" autocomplete="off" placeholder="Search a station…" />
+        <ul id="from-list" class="suggestions" hidden></ul>
+      </div>
 
       <button id="swap" type="button" aria-label="Swap stations" title="Swap">⇅</button>
 
-      <label for="to">To</label>
-      <select id="to"></select>
+      <div class="field">
+        <label for="to">To</label>
+        <input id="to" type="text" autocomplete="off" placeholder="Search a station…" />
+        <ul id="to-list" class="suggestions" hidden></ul>
+      </div>
 
       <button id="go" type="button" class="primary">Find route</button>
     </section>
@@ -33,9 +39,12 @@
     <section id="result" class="result" hidden></section>
 
     <p class="note">
-      Times from Choa Chu Kang to the stations on your personal list use your
-      given durations. Every other pair assumes 3 min between adjacent
-      stations and 3 min to change lines.
+      Trips between Choa Chu Kang and the stations on your personal list use
+      your given durations, and those numbers also shape the stop-by-stop
+      timing nearby — so Choa Chu Kang → Bishan costs the same 40 min whether
+      it's your destination or just a stop along a longer trip. Everywhere
+      else defaults to 3 min a stop (2 min on the Downtown Line) and 3 min to
+      change lines.
     </p>
   </main>
 
