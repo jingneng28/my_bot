@@ -152,19 +152,25 @@ function buildGraph(config) {
   const overrideMap = new Map(); // destination station -> {minutes, hint}
   for (const override of CCK_OVERRIDES) {
     overrideMap.set(override.to, { minutes: override.minutes, hint: override.hint || null });
-    const destLines = Array.from(stationLines.get(override.to) || []);
+    const destLines = stationLines.get(override.to) || new Set();
+    // Land on exactly the one named line (the line you're actually riding
+    // on arrival) - never every line the station happens to serve, or a
+    // search could "teleport" onto another line for free and skip the
+    // transfer it would really cost to continue on it.
+    const arrivalLine = override.line && destLines.has(override.line)
+      ? override.line
+      : destLines.values().next().value;
+    if (!arrivalLine) continue; // destination not in the map - skip defensively
     const cckLines = Array.from(stationLines.get(CCK) || []);
     for (const lc of cckLines) {
-      for (const ld of destLines) {
-        addEdge(
-          nodeKey(CCK, lc),
-          nodeKey(override.to, ld),
-          override.minutes,
-          "special",
-          null,
-          override.hint || null
-        );
-      }
+      addEdge(
+        nodeKey(CCK, lc),
+        nodeKey(override.to, arrivalLine),
+        override.minutes,
+        "special",
+        null,
+        override.hint || null
+      );
     }
   }
 
