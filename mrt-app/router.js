@@ -6,7 +6,7 @@ const RIDE_MINUTES = 3;
 const TRANSFER_MINUTES = 3;
 
 function buildGraph(LINE_INFO, SEGMENTS, CCK, CCK_OVERRIDES) {
-  const nodeKey = (station, line) => `${station}${line}`;
+  const nodeKey = (station, line) => `${station}::${line}`;
   const adj = new Map(); // nodeKey -> [{to, weight, kind, line, label}]
   const stationLines = new Map(); // station -> Set(line)
   const allStations = new Set();
@@ -178,8 +178,8 @@ function findRoute(graph, fromStation, toStation) {
   if (!full) return null;
 
   const splitKey = (key) => {
-    const idx = key.lastIndexOf("");
-    return { station: key.slice(0, idx), line: key.slice(idx + 1) };
+    const idx = key.lastIndexOf("::");
+    return { station: key.slice(0, idx), line: key.slice(idx + 2) };
   };
 
   const legs = [];
