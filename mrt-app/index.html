@@ -7,9 +7,16 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="SG MRT" />
   <meta name="theme-color" content="#0b1220" />
+  <!-- Best-effort hints against stale caching, especially on an iPhone
+       home-screen icon (GitHub Pages doesn't let a plain static site set
+       real Cache-Control headers). See mrt-app/README.md "Updating" for
+       how to force a fresh copy if a device still shows an old version. -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>SG MRT Time</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
   <main class="app">
@@ -48,8 +55,8 @@
     </p>
   </main>
 
-  <script src="data.js"></script>
-  <script src="router.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=5"></script>
+  <script src="router.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

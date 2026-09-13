@@ -62,3 +62,34 @@ new number to calibrate the corridor it travels (so it's used correctly as
 a leg of other journeys too), add a matching step to `CALIBRATIONS`
 describing the real stations/line it passes through and the target total
 for that stretch — see the existing entries for the pattern.
+
+## Keeping GitHub, GitHub Pages, and your phone in sync
+
+Three separate things need to line up before a change is actually visible
+to you, and each can lag behind on its own:
+
+1. **The commit is pushed** to this branch (`claude/singapore-mrt-app-4xjh82`)
+   — otherwise nothing downstream can update at all.
+2. **`main` has the commit too.** Browsing a file on github.com (e.g.
+   clicking `data.js`) shows whatever branch you're viewing — it defaults to
+   `main`, which does *not* update automatically just because this branch
+   did. Claude merges into `main` after each round of changes now, but if a
+   file still looks old on github.com, check the branch selector isn't
+   stuck on an old branch or commit.
+3. **GitHub Pages has rebuilt and your device has fetched the new copy.**
+   Pages rebuilds within roughly a minute of `main` (or whichever branch
+   it's set to) updating — check **Settings → Pages** for a "your site is
+   live" timestamp. After that, it's ordinary browser caching: a laptop
+   browser tab often just re-fetches on reload, but an iPhone home-screen
+   icon (and Safari generally) can hang onto an old cached copy for a
+   while. `index.html`'s script/style tags carry a `?v=N` version number
+   (bump it — and only it needs bumping — whenever a change should force a
+   re-fetch) plus no-cache meta tags as a best-effort hint, since a plain
+   GitHub Pages site can't set real `Cache-Control` headers. If a device
+   still shows an old value after a minute or two:
+   - On iPhone: remove the home-screen icon and re-add it (Share → Add to
+     Home Screen), or open the page in Safari directly (not the icon) and
+     do a long-press-reload, or Settings → Safari → Advanced → Website
+     Data → find the site → delete.
+   - On a laptop: a normal hard refresh (Cmd/Ctrl+Shift+R) is usually
+     enough.
